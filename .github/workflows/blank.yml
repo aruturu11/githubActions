@@ -1,47 +1,55 @@
-# This is a basic workflow to help you get started with Actions
+name: CI/CD Pipeline
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main  # ajuste de acordo com o nome do branch que deseja monitorar
 
-stages:
-    - compliance
-    - build
-    - quality
-    - artifactsUpload
-    - deploy
-  
-      jobs:
-      - job: compliance
-        stage: compliance
-        script:
-          - # Coloque os comandos para verificar a conformidade aqui
-  
-      - job: build
-        stage: build
-        script:
-          - # Coloque os comandos para compilar e construir artefatos aqui
-  
-      - job: quality
-        stage: quality
-        script:
-          - # Coloque os comandos para análise de qualidade aqui
-        dependencies:
-          - compliance
-          - build
-  
-      - job: artifactsUpload
-        stage: artifactsUpload
-        script:
-          - # Coloque os comandos para fazer upload dos artefatos aqui
-  
-      - job: deploy
-        stage: deploy
-        script:
-          - # Coloque os comandos para implantação aqui
+jobs:
+  compliance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Run compliance checks
+        run: |
+          # Coloque os comandos para verificar a conformidade aqui
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Build project
+        run: |
+          # Coloque os comandos para compilar e construir artefatos aqui
+
+  quality:
+    runs-on: ubuntu-latest
+    needs: [compliance, build]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Run quality analysis
+        run: |
+          # Coloque os comandos para análise de qualidade aqui
+
+  artifactsUpload:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Upload artifacts
+        run: |
+          # Coloque os comandos para fazer upload dos artefatos aqui
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [compliance, build, artifactsUpload]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Deploy
+        run: |
+          # Coloque os comandos para implantação aqui
