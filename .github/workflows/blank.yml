@@ -33,6 +33,17 @@ jobs:
       - name: Run quality analysis
         run: |
           # Coloque os comandos para análise de qualidade aqui
+  
+  
+  qualityGate:
+    runs-on: ubuntu-latest
+    needs: [compliance, quality]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Run quality analysis
+        run: |
+          # Coloque os comandos para análise de qualidade aqui
 
   artifactsUpload:
     runs-on: ubuntu-latest
