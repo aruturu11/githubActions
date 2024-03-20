@@ -1,0 +1,47 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+stages:
+    - compliance
+    - build
+    - quality
+    - artifactsUpload
+    - deploy
+  
+      jobs:
+      - job: compliance
+        stage: compliance
+        script:
+          - # Coloque os comandos para verificar a conformidade aqui
+  
+      - job: build
+        stage: build
+        script:
+          - # Coloque os comandos para compilar e construir artefatos aqui
+  
+      - job: quality
+        stage: quality
+        script:
+          - # Coloque os comandos para análise de qualidade aqui
+        dependencies:
+          - compliance
+          - build
+  
+      - job: artifactsUpload
+        stage: artifactsUpload
+        script:
+          - # Coloque os comandos para fazer upload dos artefatos aqui
+  
+      - job: deploy
+        stage: deploy
+        script:
+          - # Coloque os comandos para implantação aqui
